@@ -1,0 +1,5 @@
+{
+    "python.linting.enabled": false,
+    "python.pythonPath": "C:\\Users\\phuct\\.virtualenvs\\aalto-notebooks-ZwUV_yTK\\Scripts\\python.exe",
+    "python.formatting.provider": "black"
+}

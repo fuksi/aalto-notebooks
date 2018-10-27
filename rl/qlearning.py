@@ -55,7 +55,7 @@ ep_lengths, epl_avg = [], []
 epsilon = 1
 max_epsilon = 1
 min_epsilon = 0.01
-decay_rate = 0.01
+decay_rate = 0.0002
 for ep in range(episodes+test_episodes):
     # Do a greedy test run in the last few episodes and render it
     test = ep > episodes
@@ -91,8 +91,6 @@ for ep in range(episodes+test_episodes):
         new_q = prev_q + alpha * (reward + gamma * np.max(new_actions_values) - prev_q)
         actions_values[action] = new_q
 
-
-
         # Draw if testing
         if test:
             env.render()
@@ -106,7 +104,7 @@ for ep in range(episodes+test_episodes):
     ep_lengths.append(steps)
     epl_avg.append(np.mean(ep_lengths[min(0, ep-500):]))
     if ep % 200 == 0:
-        print("Episode {}, average timesteps: {:.2f}".format(ep, np.mean(ep_lengths[min(0, ep-200):])))
+        print("Episode {}, average timesteps: {:.2f}, current epsilon is {:.3f}".format(ep, np.mean(ep_lengths[min(0, ep-200):]), epsilon))
 
 # Save the Q-value array
 np.save("q_values.npy", q_grid)

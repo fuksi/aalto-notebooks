@@ -9,6 +9,8 @@ ipython = "*"
 numpy = "*"
 scipy = "*"
 matplotlib = "*"
+gym = "*"
+np = "*"
 
 [dev-packages]
 

@@ -58,7 +58,14 @@ def update_estimation(state, action, value):
 
 # Get action for given state
 def get_action(state, epsilon):
-    return int(np.random.random()*action_space)
+    is_exploitation = np.random.uniform(0, 1) > epsilon
+    if is_exploitation:
+        actions_values = [get_q_estimation(state, action) for action in range(action_space)]
+        action = np.argmax(actions_values)
+    else:
+        action = int(np.random.random()*action_space)
+    
+    return action
 
 
 # Main training loop
@@ -68,20 +75,28 @@ total_rewards, smoothed_rewards = [], []
 for ep in range(episodes):
     # Reset env and compute epsilon for this episode
     state, done, total_reward = env.reset(), False, 0
+    current_state = state
     epsilon = 0.9*0.997**ep
     steps = 0
 
     # Loop through the episode
     while not done:
         action = get_action(state, epsilon)
+        prev_state = state
         state, reward, done, _ = env.step(action)
+
+        value = reward + gamma * get_q_estimation(state, 0)
 
         total_reward += reward
         steps += 1
 
+        update_estimation(prev_state, action, value)
+        # env.render()
+
         # Sometimes it gets stuck...
         if steps > 1000:
             done = True
+
 
     # Bookkeeping, again
     total_rewards.append(total_reward)

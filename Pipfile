@@ -11,6 +11,9 @@ scipy = "*"
 matplotlib = "*"
 gym = "*"
 np = "*"
+"box2d-py" = "*"
+sklearn = "*"
+pystan = "*"
 
 [dev-packages]
 
